@@ -4,9 +4,34 @@
   "version": "1.0.0",
   "description": "My Electron application description",
   "main": "src/view/index.js",
+  "build": {
+    "appId": "com.ctgu.qmx.app",
+    "nsis": {
+      "oneClick": false,
+      "allowElevation": true,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "DBToCode"
+    },
+    "mac": {
+      "target": [
+        "dmg",
+        "zip"
+      ]
+    },
+    "win": {
+      "target": [
+        "nsis",
+        "zip"
+      ]
+    }
+  },
   "scripts": {
     "start": "electron-forge start",
-    "package": "electron-forge package",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder --win --x64",
+    "package": "electron-packager . DBToCode --platform=win32 --arch=x64 --icon=logo.png --out=./app --app-version=0.0.1 --overwrite --ignore=node_modules",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
     "lint": "eslint src --color"
@@ -48,13 +73,17 @@
   },
   "dependencies": {
     "electron-compile": "^6.4.4",
-    "electron-squirrel-startup": "^1.0.0"
+    "electron-squirrel-startup": "^1.0.0",
+    "python-shell": "^1.0.8",
+    "shelljs": "^0.8.3"
   },
   "devDependencies": {
     "babel-plugin-transform-async-to-generator": "^6.24.1",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
+    "electron-builder": "^22.3.6",
     "electron-forge": "^5.2.4",
+    "electron-packager": "^12.2.0",
     "electron-prebuilt-compile": "4.0.0",
     "eslint": "^3.19.0",
     "eslint-config-airbnb": "^15.1.0",

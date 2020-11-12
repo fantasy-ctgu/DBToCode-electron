@@ -1,11 +1,12 @@
 /*
  * @Author: Fantasy
  * @Date: 2020-01-19 10:12:20
- * @LastEditors  : Fantasy
- * @LastEditTime : 2020-01-21 14:28:46
+ * @LastEditors: Fantasy
+ * @LastEditTime: 2020-03-05 21:54:31
  * @Descripttion: 
  * @Email: 776474961@qq.com
  */
+const shell = require('shelljs');
 const electron = require('electron');
 const fs = require('fs');
 const path = require('path');
@@ -13,9 +14,9 @@ let {
     PythonShell
 } = require('python-shell');
 
-var sqlFile = "D:\\Book Store.sql",
-    templateDir = "D:\\GitHub\\DBToCode\\template\\java\\springboot",
-    outputDir = "C:\\Users\\Fantasy\\Desktop\\test";
+var sqlFile = "C:\\Users\\Fantasy\\Desktop\\tutor.sql",
+    templateDir = "C:\\Users\\Fantasy\\Desktop\\template\\java\\springboot",
+    outputDir = "C:\\Users\\Fantasy\\Desktop\\outputdir";
 
 function chooseSqlFile() {
     var btnid = "sqlFile";
@@ -123,28 +124,16 @@ function chooseOutputDir() {
 }
 
 function startTranslate() {
-    let scriptPath = path.join(__dirname, '../service/DBToCode.py');
+    let scriptPath = path.join(__dirname, '');
     if (!(sqlFile && templateDir && outputDir)) {
         alert("Please choose before translation");
         return false;
     }
-    let arg = new Array();
-    arg.push("-db");
-    arg.push(sqlFile);
-    arg.push("-intem");
-    arg.push(templateDir);
-    arg.push("-outem");
-    arg.push(outputDir);
-    let options = {
-        mode: 'text',
-        pythonOptions: ['-u'], // get print results in real-time
-        args: arg
-    };
-    console.log(options);
-    PythonShell.run(scriptPath, options, function (err, results) {
-        if (err) throw err;
-        console.log('results:', results);
-    });
+    let shellCmd = path.join(scriptPath, "DBToCode.exe") + " -db " + sqlFile + " -intem " + templateDir + " -outem " + outputDir;
+    shell.config.execPath = shell.which('node').toString()
+    console.log(scriptPath);
+    console.log(shellCmd);
+    console.log(shell.exec(shellCmd));
 }
 
 // PythonShell.run(path.join(__dirname, '../service/DBToCode.py'), {
